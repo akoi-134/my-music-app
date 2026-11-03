@@ -2,112 +2,189 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#d9e5ff">
-  <title>My Music</title>
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: sans-serif;
-      color: #343653;
-      background: linear-gradient(145deg, #e7efff, #eee5ff);
-    }
-    header { padding: 30px 22px 15px; }
-    h1 { font-size: 27px; margin: 0 0 8px; }
-    .sub { color: #777b9b; font-size: 14px; }
-    main { padding: 12px 20px 100px; }
-    .card {
-      background: rgba(255,255,255,.78);
-      border-radius: 22px;
-      padding: 20px;
-      margin-bottom: 16px;
-      box-shadow: 0 5px 20px #aeb7d522;
-    }
-    .hero {
-      background: linear-gradient(120deg,#b9d4ff,#d9c4ff);
-      color: #343653;
-      padding: 25px;
-    }
-    .hero h2 { margin: 0 0 8px; }
-    .hero p { margin: 0; font-size: 14px; }
-    h3 { margin: 0 0 14px; }
-    .tabs {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      display: flex;
-      justify-content: space-around;
-      padding: 14px 5px;
-      background: #ffffffed;
-      border-top: 1px solid #e5e5f2;
-    }
-    .tabs span { font-size: 12px; color: #777b9b; }
-    button {
-      border: 0;
-      border-radius: 14px;
-      padding: 12px 17px;
-      background: #a9c9ff;
-      color: #303653;
-      font-weight: bold;
-    }
-    input { max-width: 100%; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#dcecff">
+<title>My Music ♪</title>
+<style>
+:root {
+  --main: #dcecff;
+  --sub: #e9ddff;
+  --text: #514b68;
+  --card: rgba(255,255,255,.78);
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  padding: 20px;
+  padding-bottom: 90px;
+  font-family: sans-serif;
+  color: var(--text);
+  background: linear-gradient(135deg,var(--main),var(--sub));
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+header { text-align:center; padding: 15px 0; }
+h1 { margin: 5px; font-size: 27px; }
+.subtitle { font-size: 13px; opacity: .8; }
+.card {
+  background: var(--card);
+  border-radius: 22px;
+  padding: 18px;
+  margin: 15px 0;
+  box-shadow: 0 5px 18px rgba(80,70,120,.08);
+  backdrop-filter: blur(8px);
+}
+h2 { font-size: 18px; margin-top: 0; }
+button, .file-label {
+  border: 0;
+  border-radius: 15px;
+  padding: 12px 16px;
+  background: var(--sub);
+  color: var(--text);
+  font-size: 14px;
+  cursor: pointer;
+  margin: 4px;
+}
+button:active { opacity: .7; }
+input[type="file"] { max-width: 100%; }
+input[type="color"] {
+  width: 48px;
+  height: 38px;
+  border: 0;
+  background: transparent;
+  vertical-align: middle;
+}
+video { width: 100%; border-radius: 15px; margin-top: 12px; }
+nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  padding: 12px 4px;
+  background: rgba(255,255,255,.9);
+  backdrop-filter: blur(10px);
+}
+nav span { font-size: 12px; text-align:center; }
+.small { font-size: 12px; opacity: .75; line-height: 1.6; }
+</style>
 </head>
 <body>
-  <header>
-    <h1>My Music ♪</h1>
-    <div class="sub">お気に入りの音楽を、いつでも。</div>
-  </header>
 
-  <main>
-    <section class="card hero">
-      <h2>Welcome ♡</h2>
-      <p>自分だけの音楽・動画スペースへようこそ！</p>
-    </section>
+<header>
+  <h1>My Music ♪</h1>
+  <div class="subtitle">わたしだけの音楽プレイヤー</div>
+</header>
 
-    <section class="card">
-      <h3>🎵 音楽</h3>
-      <p>お気に入りの音楽をここに集めよう。</p>
-      <button onclick="alert('音楽機能はこれから追加するよ！')">
-        音楽を探す
-      </button>
-    </section>
+<section class="card">
+  <h2>☁️ Welcome!</h2>
+  <p>お気に入りの音楽や動画を楽しもう！</p>
+</section>
 
-    <section class="card">
-      <h3>🎬 動画</h3>
-      <p>スマホに保存した動画を楽しもう。</p>
-      <input type="file" accept="video/*" id="videoFile">
-      <video id="player" controls style="width:100%;margin-top:12px;border-radius:14px;display:none"></video>
-    </section>
+<section class="card">
+  <h2>🎵 Music</h2>
+  <p>音楽機能はこれから追加するよ！</p>
+</section>
 
-    <section class="card">
-      <h3>💜 お気に入り</h3>
-      <p>これからお気に入り機能を追加していくよ！</p>
-    </section>
-  </main>
+<section class="card">
+  <h2>🎬 Video</h2>
+  <p>スマホに保存した動画を再生できるよ。</p>
+  <input type="file" id="videoFile" accept="video/*">
+  <video id="videoPlayer" controls playsinline hidden></video>
+</section>
 
-  <nav class="tabs">
-    <span>⌂ ホーム</span>
-    <span>🎬 動画</span>
-    <span>♡ お気に入り</span>
-    <span>⚙ 設定</span>
-  </nav>
+<section class="card">
+  <h2>💗 Favorites</h2>
+  <p>お気に入り機能はこれから追加するよ！</p>
+</section>
 
-  <script>
-    const fileInput = document.getElementById('videoFile');
-    const player = document.getElementById('player');
-    fileInput.addEventListener('change', () => {
-      const file = fileInput.files[0];
-      if (file) {
-        player.src = URL.createObjectURL(file);
-        player.style.display = 'block';
-        player.play();
-      }
-    });
-  </script>
-</body>
-</html>
+<section class="card">
+  <h2>🎨 デザイン設定</h2>
+  <p>好きな背景写真を選んでね！</p>
+  <input type="file" id="backgroundFile" accept="image/*">
+  <p class="small">選んだ写真はこのスマホのブラウザ内に保存されるよ。GitHubにはアップロードされないよ。</p>
+
+  <hr style="border:0;border-top:1px solid #ddd;margin:18px 0;">
+
+  <p>テーマカラーを選ぼう！</p>
+  <button onclick="setTheme('#dcecff','#e9ddff')">🩵 水色×紫</button>
+  <button onclick="setTheme('#ffe1ed','#f5ddff')">🌸 ピンク×ラベンダー</button>
+  <button onclick="setTheme('#e0f4e7','#dcecff')">🍀 ミント×水色</button>
+  <button onclick="setTheme('#fff0d9','#ffe1ed')">🍮 クリーム×ピンク</button>
+
+  <p>好きな色を自由に選ぶこともできるよ！</p>
+  <label>メインカラー <input type="color" id="mainColor" value="#dcecff"></label>
+  <label>サブカラー <input type="color" id="subColor" value="#e9ddff"></label>
+  <button onclick="applyCustomTheme()">この色にする</button>
+  <button onclick="clearBackground()">背景写真を消す</button>
+</section>
+
+<nav>
+  <span>🏠<br>ホーム</span>
+  <span>🎬<br>動画</span>
+  <span>💗<br>お気に入り</span>
+  <span>🎨<br>設定</span>
+</nav>
+
+<script>
+const root = document.documentElement;
+
+function setTheme(main, sub) {
+  root.style.setProperty('--main', main);
+  root.style.setProperty('--sub', sub);
+  document.getElementById('mainColor').value = main;
+  document.getElementById('subColor').value = sub;
+  localStorage.setItem('myMusicMain', main);
+  localStorage.setItem('myMusicSub', sub);
+}
+
+function applyCustomTheme() {
+  setTheme(
+    document.getElementById('mainColor').value,
+    document.getElementById('subColor').value
+  );
+}
+
+function clearBackground() {
+  document.body.style.backgroundImage = '';
+  localStorage.removeItem('myMusicBackground');
+  document.getElementById('backgroundFile').value = '';
+}
+
+document.getElementById('backgroundFile').addEventListener('change', function(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  if (file.size > 3 * 1024 * 1024) {
+    alert('写真のサイズが大きいよ。3MB以下の写真を選んでね！');
+    event.target.value = '';
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = function() {
+    try {
+      localStorage.setItem('myMusicBackground', reader.result);
+      document.body.style.backgroundImage = 'url("' + reader.result + '")';
+    } catch (error) {
+      alert('保存できなかったよ。別の写真を試してね。');
+    }
+  };
+  reader.readAsDataURL(file);
+});
+
+document.getElementById('videoFile').addEventListener('change', function(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const player = document.getElementById('videoPlayer');
+  if (player.dataset.url) URL.revokeObjectURL(player.dataset.url);
+  const url = URL.createObjectURL(file);
+  player.dataset.url = url;
+  player.src = url;
+  player.hidden = false;
+  player.play();
+});
+
+const savedMain = localStorage.getItem('myMusicMain');
+const savedSub = localStorage.getItem('m
