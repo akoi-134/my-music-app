@@ -1,0 +1,113 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#d9e5ff">
+  <title>My Music</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: sans-serif;
+      color: #343653;
+      background: linear-gradient(145deg, #e7efff, #eee5ff);
+    }
+    header { padding: 30px 22px 15px; }
+    h1 { font-size: 27px; margin: 0 0 8px; }
+    .sub { color: #777b9b; font-size: 14px; }
+    main { padding: 12px 20px 100px; }
+    .card {
+      background: rgba(255,255,255,.78);
+      border-radius: 22px;
+      padding: 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 5px 20px #aeb7d522;
+    }
+    .hero {
+      background: linear-gradient(120deg,#b9d4ff,#d9c4ff);
+      color: #343653;
+      padding: 25px;
+    }
+    .hero h2 { margin: 0 0 8px; }
+    .hero p { margin: 0; font-size: 14px; }
+    h3 { margin: 0 0 14px; }
+    .tabs {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-around;
+      padding: 14px 5px;
+      background: #ffffffed;
+      border-top: 1px solid #e5e5f2;
+    }
+    .tabs span { font-size: 12px; color: #777b9b; }
+    button {
+      border: 0;
+      border-radius: 14px;
+      padding: 12px 17px;
+      background: #a9c9ff;
+      color: #303653;
+      font-weight: bold;
+    }
+    input { max-width: 100%; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>My Music ♪</h1>
+    <div class="sub">お気に入りの音楽を、いつでも。</div>
+  </header>
+
+  <main>
+    <section class="card hero">
+      <h2>Welcome ♡</h2>
+      <p>自分だけの音楽・動画スペースへようこそ！</p>
+    </section>
+
+    <section class="card">
+      <h3>🎵 音楽</h3>
+      <p>お気に入りの音楽をここに集めよう。</p>
+      <button onclick="alert('音楽機能はこれから追加するよ！')">
+        音楽を探す
+      </button>
+    </section>
+
+    <section class="card">
+      <h3>🎬 動画</h3>
+      <p>スマホに保存した動画を楽しもう。</p>
+      <input type="file" accept="video/*" id="videoFile">
+      <video id="player" controls style="width:100%;margin-top:12px;border-radius:14px;display:none"></video>
+    </section>
+
+    <section class="card">
+      <h3>💜 お気に入り</h3>
+      <p>これからお気に入り機能を追加していくよ！</p>
+    </section>
+  </main>
+
+  <nav class="tabs">
+    <span>⌂ ホーム</span>
+    <span>🎬 動画</span>
+    <span>♡ お気に入り</span>
+    <span>⚙ 設定</span>
+  </nav>
+
+  <script>
+    const fileInput = document.getElementById('videoFile');
+    const player = document.getElementById('player');
+    fileInput.addEventListener('change', () => {
+      const file = fileInput.files[0];
+      if (file) {
+        player.src = URL.createObjectURL(file);
+        player.style.display = 'block';
+        player.play();
+      }
+    });
+  </script>
+</body>
+</html>
