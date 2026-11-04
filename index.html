@@ -143,6 +143,21 @@ nav span { font-size: 12px; text-align:center; }
   
   <script>
 const root = document.documentElement;
+
+// 🎵 音楽ファイル
+document.getElementById('musicFile').addEventListener('change', function(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const player = document.getElementById('musicPlayer');
+  if (player.dataset.url) URL.revokeObjectURL(player.dataset.url);
+
+  const url = URL.createObjectURL(file);
+  player.dataset.url = url;
+  player.src = url;
+});
+
+// 📝 歌詞の保存
 function saveLyrics() {
   const lyrics = document.getElementById('lyrics').value;
   localStorage.setItem('myMusicLyrics', lyrics);
@@ -150,11 +165,11 @@ function saveLyrics() {
 }
 
 const savedLyrics = localStorage.getItem('myMusicLyrics');
-if (savedLyrics) {
+if (savedLyrics !== null) {
   document.getElementById('lyrics').value = savedLyrics;
 }
 
-
+// 🎨 テーマカラー
 function setTheme(main, sub) {
   root.style.setProperty('--main', main);
   root.style.setProperty('--sub', sub);
@@ -171,20 +186,24 @@ function applyCustomTheme() {
   );
 }
 
+// 🖼️ 背景写真を消す
 function clearBackground() {
   document.body.style.backgroundImage = '';
   localStorage.removeItem('myMusicBackground');
   document.getElementById('backgroundFile').value = '';
 }
 
+// 🖼️ 背景写真を選ぶ
 document.getElementById('backgroundFile').addEventListener('change', function(event) {
   const file = event.target.files[0];
   if (!file) return;
+
   if (file.size > 3 * 1024 * 1024) {
     alert('写真のサイズが大きいよ。3MB以下の写真を選んでね！');
     event.target.value = '';
     return;
   }
+
   const reader = new FileReader();
   reader.onload = function() {
     try {
@@ -197,11 +216,14 @@ document.getElementById('backgroundFile').addEventListener('change', function(ev
   reader.readAsDataURL(file);
 });
 
+// 🎬 動画ファイル
 document.getElementById('videoFile').addEventListener('change', function(event) {
   const file = event.target.files[0];
   if (!file) return;
+
   const player = document.getElementById('videoPlayer');
   if (player.dataset.url) URL.revokeObjectURL(player.dataset.url);
+
   const url = URL.createObjectURL(file);
   player.dataset.url = url;
   player.src = url;
@@ -209,6 +231,7 @@ document.getElementById('videoFile').addEventListener('change', function(event) 
   player.play();
 });
 
+// 💾 保存したテーマを読み込む
 const savedMain = localStorage.getItem('myMusicMain');
 const savedSub = localStorage.getItem('myMusicSub');
 
@@ -216,10 +239,11 @@ if (savedMain && savedSub) {
   setTheme(savedMain, savedSub);
 }
 
+// 💾 保存した背景写真を読み込む
 const savedBackground = localStorage.getItem('myMusicBackground');
 if (savedBackground) {
   document.body.style.backgroundImage = 'url("' + savedBackground + '")';
-}
+} 
 </script>
 
 </body>
