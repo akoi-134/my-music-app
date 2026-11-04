@@ -140,6 +140,9 @@ nav span { font-size: 12px; text-align:center; }
   <span>💗<br>お気に入り</span>
   <span>🎨<br>設定</span>
 </nav>
+  
+  <script>
+const root = document.documentElement;
 function saveLyrics() {
   const lyrics = document.getElementById('lyrics').value;
   localStorage.setItem('myMusicLyrics', lyrics);
