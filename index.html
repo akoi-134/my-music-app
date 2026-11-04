@@ -187,4 +187,18 @@ document.getElementById('videoFile').addEventListener('change', function(event) 
 });
 
 const savedMain = localStorage.getItem('myMusicMain');
-const savedSub = localStorage.getItem('m
+const savedMain = localStorage.getItem('myMusicMain');
+const savedSub = localStorage.getItem('myMusicSub');
+
+if (savedMain && savedSub) {
+  setTheme(savedMain, savedSub);
+}
+
+const savedBackground = localStorage.getItem('myMusicBackground');
+if (savedBackground) {
+  document.body.style.backgroundImage = 'url("' + savedBackground + '")';
+}
+</script>
+
+</body>
+</html>
