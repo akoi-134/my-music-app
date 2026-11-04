@@ -140,8 +140,17 @@ nav span { font-size: 12px; text-align:center; }
   <span>💗<br>お気に入り</span>
   <span>🎨<br>設定</span>
 </nav>
+function saveLyrics() {
+  const lyrics = document.getElementById('lyrics').value;
+  localStorage.setItem('myMusicLyrics', lyrics);
+  alert('歌詞を保存したよ！💗');
+}
 
-<script>
+const savedLyrics = localStorage.getItem('myMusicLyrics');
+if (savedLyrics) {
+  document.getElementById('lyrics').value = savedLyrics;
+}
+</script>
 const root = document.documentElement;
 
 function setTheme(main, sub) {
