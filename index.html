@@ -196,7 +196,8 @@ function setTheme(main, sub) {
   root.style.setProperty('--sub', sub);
   document.getElementById('mainColor').value = main;
   document.getElementById('subColor').value = sub;
-  localStorage.setItem(myMusicSub', sub);
+  localStorage.setItem('myMusicMain', main);
+  localStorage.setItem('myMusicSub', sub);
 }
 
 function applyCustomTheme() {
