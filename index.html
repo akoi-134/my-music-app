@@ -144,17 +144,38 @@ nav span { font-size: 12px; text-align:center; }
   <script>
 const root = document.documentElement;
 
-// 🎵 音楽ファイル
+// 🎵 複数の音楽ファイル
+let musicFiles = [];
+let currentMusicIndex = 0;
+let musicUrls = [];
+
 document.getElementById('musicFile').addEventListener('change', function(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-
+  musicFiles = Array.from(event.target.files);
+  const playlist = document.getElementById('playlist');
   const player = document.getElementById('musicPlayer');
-  if (player.dataset.url) URL.revokeObjectURL(player.dataset.url);
 
-  const url = URL.createObjectURL(file);
-  player.dataset.url = url;
-  player.src = url;
+  musicUrls.forEach(url => URL.revokeObjectURL(url));
+  musicUrls = musicFiles.map(file => URL.createObjectURL(file));
+
+  playlist.innerHTML = '';
+
+  musicFiles.forEach((file, index) => {
+    const button = document.createElement('button');
+    button.textContent = '🎵 ' + file.name;
+    button.style.display = 'block';
+    button.style.width = '100%';
+    button.onclick = function() {
+      currentMusicIndex = index;
+      player.src = musicUrls[index];
+      player.play();
+    };
+    playlist.appendChild(button);
+  });
+
+  if (musicFiles.length > 0) {
+    currentMusicIndex = 0;
+    player.src = musicUrls[0];
+  }
 });
 
 // 📝 歌詞の保存
@@ -175,8 +196,7 @@ function setTheme(main, sub) {
   root.style.setProperty('--sub', sub);
   document.getElementById('mainColor').value = main;
   document.getElementById('subColor').value = sub;
-  localStorage.setItem('myMusicMain', main);
-  localStorage.setItem('myMusicSub', sub);
+  localStorage.setItem(myMusicSub', sub);
 }
 
 function applyCustomTheme() {
@@ -244,7 +264,8 @@ const savedBackground = localStorage.getItem('myMusicBackground');
 if (savedBackground) {
   document.body.style.backgroundImage = 'url("' + savedBackground + '")';
 } 
-</script>
+</script>'myMusicMain', main);
+  localStorage.setItem('
 
 </body>
 </html>
