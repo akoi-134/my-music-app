@@ -121,7 +121,19 @@ nav span { font-size: 12px; text-align:center; }
   <button onclick="applyCustomTheme()">この色にする</button>
   <button onclick="clearBackground()">背景写真を消す</button>
 </section>
+<section class="card">
+  <h2>🎵 音楽プレイヤー</h2>
 
+  <input type="file" id="musicFile" accept="audio/*">
+
+  <audio id="musicPlayer" controls style="width:100%;"></audio>
+
+  <h3>📝 歌詞</h3>
+  <textarea id="lyrics" placeholder="ここに歌詞を入力してね！"
+    style="width:100%; min-height:180px;"></textarea>
+
+  <button onclick="saveLyrics()">💾 歌詞を保存</button>
+</section>
 <nav>
   <span>🏠<br>ホーム</span>
   <span>🎬<br>動画</span>
