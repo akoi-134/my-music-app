@@ -207,7 +207,6 @@ function getSavedMusic() {
 
 let musicUrls = [];
 
-// 🎵 プレイリストを表示
 async function showPlaylist() {
   const tracks = await getSavedMusic();
   const playlist = document.getElementById('playlist');
@@ -236,7 +235,7 @@ async function showPlaylist() {
     playlist.textContent = 'まだ曲が登録されていないよ🎵';
   }
 }
-
+    
 // 🎵 曲を追加して保存
 document.getElementById('musicFile').addEventListener('change', async function(event) {
   const files = event.target.files;
