@@ -207,6 +207,7 @@ function getSavedMusic() {
 
 let musicUrls = [];
 
+// 🎵 プレイリストを表示
 async function showPlaylist() {
   const tracks = await getSavedMusic();
   const playlist = document.getElementById('playlist');
@@ -218,17 +219,42 @@ async function showPlaylist() {
   playlist.innerHTML = '';
 
   tracks.forEach((track, index) => {
-    const button = document.createElement('button');
-    button.textContent = '🎵 ' + track.name;
-    button.style.display = 'block';
-    button.style.width = '100%';
+    const row = document.createElement('div');
+    row.style.display = 'flex';
+    row.style.gap = '6px';
+    row.style.margin = '6px 0';
 
-    button.onclick = function() {
+    const playButton = document.createElement('button');
+    playButton.textContent = '🎵 ' + track.name;
+    playButton.style.flex = '1';
+    playButton.style.minWidth = '0';
+
+    playButton.onclick = function() {
       player.src = musicUrls[index];
       player.play();
     };
 
-    playlist.appendChild(button);
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = '🗑️';
+
+    deleteButton.onclick = async function() {
+      if (!confirm('「' + track.name + '」を削除する？')) return;
+
+      player.pause();
+      player.removeAttribute('src');
+      player.load();
+
+      const transaction = musicDB.transaction('tracks', 'readwrite');
+      transaction.objectStore('tracks').delete(track.id);
+
+      transaction.oncomplete = async function() {
+        await showPlaylist();
+      };
+    };
+
+    row.appendChild(playButton);
+    row.appendChild(deleteButton);
+    playlist.appendChild(row);
   });
 
   if (tracks.length === 0) {
