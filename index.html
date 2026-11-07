@@ -144,39 +144,127 @@ nav span { font-size: 12px; text-align:center; }
   <script>
 const root = document.documentElement;
 
-// 🎵 複数の音楽ファイル
-let musicFiles = [];
-let currentMusicIndex = 0;
+
+// 🎵 音楽ファイルを保存するデータベース
+let musicDB;
+
+function openMusicDB() {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open('MyMusicDatabase', 1);
+
+    request.onupgradeneeded = function(event) {
+      const db = event.target.result;
+      if (!db.objectStoreNames.contains('tracks')) {
+        db.createObjectStore('tracks', {
+          keyPath: 'id',
+          autoIncrement: true
+        });
+      }
+    };
+
+    request.onsuccess = function(event) {
+      musicDB = event.target.result;
+      resolve(musicDB);
+    };
+
+    request.onerror = function() {
+      reject(request.error);
+    };
+  });
+}
+
+// 💾 曲をデータベースに保存
+function saveMusicFiles(files) {
+  return new Promise((resolve, reject) => {
+    const transaction = musicDB.transaction('tracks', 'readwrite');
+    const store = transaction.objectStore('tracks');
+
+    Array.from(files).forEach(file => {
+      store.add({
+        name: file.name,
+        type: file.type,
+        blob: file,
+        addedAt: Date.now()
+      });
+    });
+
+    transaction.oncomplete = resolve;
+    transaction.onerror = () => reject(transaction.error);
+    transaction.onabort = () => reject(transaction.error);
+  });
+}
+
+// 📚 保存済みの曲を読み込む
+function getSavedMusic() {
+  return new Promise((resolve, reject) => {
+    const transaction = musicDB.transaction('tracks', 'readonly');
+    const request = transaction.objectStore('tracks').getAll();
+
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error);
+  });
+}
+
 let musicUrls = [];
 
-document.getElementById('musicFile').addEventListener('change', function(event) {
-  musicFiles = Array.from(event.target.files);
+// 🎵 プレイリストを表示
+async function showPlaylist() {
+  const tracks = await getSavedMusic();
   const playlist = document.getElementById('playlist');
   const player = document.getElementById('musicPlayer');
 
   musicUrls.forEach(url => URL.revokeObjectURL(url));
-  musicUrls = musicFiles.map(file => URL.createObjectURL(file));
+  musicUrls = tracks.map(track => URL.createObjectURL(track.blob));
 
   playlist.innerHTML = '';
 
-  musicFiles.forEach((file, index) => {
+  tracks.forEach((track, index) => {
     const button = document.createElement('button');
-    button.textContent = '🎵 ' + file.name;
+    button.textContent = '🎵 ' + track.name;
     button.style.display = 'block';
     button.style.width = '100%';
+
     button.onclick = function() {
-      currentMusicIndex = index;
       player.src = musicUrls[index];
       player.play();
     };
+
     playlist.appendChild(button);
   });
 
-  if (musicFiles.length > 0) {
-    currentMusicIndex = 0;
-    player.src = musicUrls[0];
+  if (tracks.length === 0) {
+    playlist.textContent = 'まだ曲が登録されていないよ🎵';
   }
+}
+
+// 🎵 曲を追加して保存
+document.getElementById('musicFile').addEventListener('change', async function(event) {
+  const files = event.target.files;
+  if (!files.length) return;
+
+  try {
+    await saveMusicFiles(files);
+    await showPlaylist();
+    alert('音楽を保存したよ！💗');
+  } catch (error) {
+    alert('保存できなかったよ。空き容量などを確認してね。');
+  }
+
+  event.target.value = '';
 });
+
+// 💾 ページを開いたときに保存済みの曲を表示
+async function initializeMusic() {
+  try {
+    await openMusicDB();
+    await showPlaylist();
+  } catch (error) {
+    alert('音楽の保存機能を読み込めなかったよ。');
+  }
+}
+
+initializeMusic();
+
 
 // 📝 歌詞の保存
 function saveLyrics() {
